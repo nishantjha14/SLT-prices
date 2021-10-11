@@ -71,11 +71,3 @@ def getPrice(from_,to_):
 
 	time.sleep(0.3)
 	return price
-
-
-if __name__ == '__main__':
-	login()
-	reach_page()
-	print(getPrice('CCU','DEL'))
-	print(getPrice('CCU','DED'))
-	driver.quit()
