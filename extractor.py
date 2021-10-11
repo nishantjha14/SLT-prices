@@ -24,7 +24,6 @@ def rerun_on_error(func):
     return wrapper
 
 def login():
-		time.sleep(1)
 		driver.get('https://stafftravel.goindigo.in/')
 		driver.find_element_by_id("memberId").send_keys(ID)
 		driver.find_element_by_id("mobilePass").send_keys(PASSWORD)
@@ -44,10 +43,13 @@ def reach_page():
 		driver.find_element_by_name("or-depart").send_keys(Keys.ENTER)
 		wait30.until(ec.presence_of_element_located((By.XPATH,"//*[contains(@class,'trip-filter-head')]")))
 
-def enter(text,element):
+def enter(text,element,offset=True):
 	action = ActionChains(driver)
-	action.move_to_element_with_offset(element,100,120)
-	action.click()
+	if offset:
+		action.move_to_element_with_offset(element,100,120)
+		action.click()
+	else:
+		action.click(on_element=element)
 	action.send_keys(text+Keys.ENTER)
 	action.perform()
 	time.sleep(1)
@@ -57,7 +59,7 @@ def getPrice(from_,to_):
 	driver.find_element_by_xpath("//*[contains(@class,'changeBtn  btn-re-gray-md')]").click()
 	enter(from_,driver.find_element_by_name("origin"))
 	enter(to_,driver.find_element_by_name("destination"))
-	enter(date.today().strftime("%d"),driver.find_element_by_id("fieldDepart"))
+	enter(date.today().strftime("%d"),driver.find_element_by_id("fieldDepart"),offset=False)
 	driver.find_element_by_class_name("btn-md-dark").click()
 
 	for day in range(1,7):
